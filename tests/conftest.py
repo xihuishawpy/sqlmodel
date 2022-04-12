@@ -32,7 +32,7 @@ def cov_tmp_path(tmp_path: Path):
 
 
 def coverage_run(*, module: str, cwd: Union[str, Path]) -> subprocess.CompletedProcess:
-    result = subprocess.run(
+    return subprocess.run(
         [
             "coverage",
             "run",
@@ -46,7 +46,6 @@ def coverage_run(*, module: str, cwd: Union[str, Path]) -> subprocess.CompletedP
         stderr=subprocess.PIPE,
         encoding="utf-8",
     )
-    return result
 
 
 def get_testing_print_function(
@@ -58,10 +57,7 @@ def get_testing_print_function(
             if isinstance(arg, BaseModel):
                 data.append(arg.dict())
             elif isinstance(arg, list):
-                new_list = []
-                for item in arg:
-                    if isinstance(item, BaseModel):
-                        new_list.append(item.dict())
+                new_list = [item.dict() for item in arg if isinstance(item, BaseModel)]
                 data.append(new_list)
             else:
                 data.append(arg)

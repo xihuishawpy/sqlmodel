@@ -68,8 +68,7 @@ def read_heroes(
     offset: int = 0,
     limit: int = Query(default=100, lte=100),
 ):
-    heroes = session.exec(select(Hero).offset(offset).limit(limit)).all()
-    return heroes
+    return session.exec(select(Hero).offset(offset).limit(limit)).all()
 
 
 @app.get("/heroes/{hero_id}", response_model=HeroRead)

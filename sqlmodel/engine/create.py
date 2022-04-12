@@ -135,5 +135,5 @@ def create_engine(
         current_kwargs["plugins"] = plugins
     if not isinstance(query_cache_size, _DefaultPlaceholder):
         current_kwargs["query_cache_size"] = query_cache_size
-    current_kwargs.update(kwargs)
+    current_kwargs |= kwargs
     return _create_engine(url, **current_kwargs)  # type: ignore
